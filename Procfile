@@ -1,1 +1,1 @@
-web: gunicorn run:CodeNamesTTS
+web: gunicorn app:app
