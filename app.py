@@ -1,16 +1,19 @@
 import os
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()
 app = Flask(__name__)
-app.config.from_object(os.environ['APP_SETTINGS'])
 
-@app.route('/')
-def hello():
-    return "Hello World!"
+def create_app(config):
 
-@app.route('/<name>')
-def hello_name(name):
-    return "Hello {}!".format(name)
+	app.config.from_object(config)
+	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+	
+	db.init_app(app)
 
-if __name__ == '__main__':
-    app.run()
+	from codenames.views import codenames_app
+	
+	app.register_blueprint(codenames_app)
+
+	return app
