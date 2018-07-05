@@ -32,6 +32,7 @@ class Tile(db.Model):
 	game_id = db.Column(db.Integer, db.ForeignKey('game.id'), primary_key=True)
 	card_id = db.Column(db.Integer, db.ForeignKey('card.id'), primary_key=True)
 	team_id = db.Column(db.Integer, db.ForeignKey('team.id'), primary_key=True)
+	revealed = db.Column(db.Boolean, default=False)
 	position = db.Column(db.Integer)
 
 	db.relationship('Game', uselist=False, backref='tiles', lazy='dynamic')
