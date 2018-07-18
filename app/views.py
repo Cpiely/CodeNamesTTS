@@ -63,3 +63,18 @@ def end():
 	db.session.query(Game).filter_by(id=game_id).delete()
 	db.session.commit()
 	return jsonify()
+
+@app.route('/list', methods=['GET'])
+def list():
+	game_id = request.args.get('game_id', None)
+	results = {
+		'cards': []
+	}
+	tiles = db.session.query(Tile).filter_by(game_id=game_id).all()
+	for tile in tiles:
+		card = db.session.query(Card).filter_by(id=tile.card_id).first()
+		results['cards'].append({
+			'position':tile.position,
+			'card': card.serialize,
+		})
+	return jsonify(results)
